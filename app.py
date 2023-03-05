@@ -147,7 +147,7 @@ def main():
             st.write(f"file is downloadable at {ex444}")
             session_state['ex444'] = ex444
     else:
-        st.write(f"error getting the file is On  {ex444}")
+        st.write(f"error getting the file ")
         
     #download_button(session_state['ex4file'],"Download the EA now")
     show_log_file('generatedfile.log')
