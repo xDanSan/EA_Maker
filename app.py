@@ -16,6 +16,8 @@ session_state = get_session_state()
 def show_log_file(filename):
     if "filename" in session_state:
         with open(session_state['filename'], mode="rb") as file:
+            if file == None:
+                return
             log_contents = file.read().decode("utf-16-le")
             st.success(log_contents)
   
@@ -158,7 +160,7 @@ def main():
                     data=file,
                     file_name=ex4_file.name[:-4]+'_AUTO_EA'+'.ex4',
                 )
-
+    st.write(session_state)
 # Run the app
 if __name__ == "__main__":
     main()
