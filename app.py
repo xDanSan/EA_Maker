@@ -189,14 +189,8 @@ def main():
                     data=file,
                     file_name=ex4_file.name[:-4]+'_AUTO_EA'+'.ex4',
                 )
-    res = subprocess.call('ls -al', shell=True) 
-    st.write(res)
-    st.write('')
-    files = os.listdir()
-    for x in files:
-     st.write(x)
+    
     st.write(session_state)
-
 # Run the app
 if __name__ == "__main__":
     main()
