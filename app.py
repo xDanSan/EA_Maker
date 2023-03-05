@@ -68,8 +68,9 @@ def compile_mq4_file2(mq4_file_pathh):
     # Set the path to the output EX4 file
     ex4_file_path = os.path.join(output_dir, os.path.splitext(os.path.basename(mq4_file_path))[0] + ".ex4")
     print('ex4_file_path',ex4_file_path)
-    # Build the command to compile the MQ4 file to EX4
-    command = f'metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
+    # Build the command to compile the MQ4 file to EX4   /usr/bin/wine
+    command = f'/usr/bin/wine metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
+    #command = f'metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
     # Execute the command and capture the output
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, error = process.communicate()
