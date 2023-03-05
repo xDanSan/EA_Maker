@@ -32,8 +32,29 @@ def show_log_file():
 
     # Display the log file contents using Streamlit
     #st.code(log_content)
+def compile_mq4_file(mq4_file_path):
+    # Get the path to the MetaEditor executable
+    metaeditor_path = os.path.join(os.path.dirname(__file__), "metaeditor.exe")
+    # Get the path to the MQ4 file directory
+    mq4_file_dir = os.path.dirname(mq4_file_path)
+    # Set the output directory to the MQ4 file directory
+    output_dir = mq4_file_dir
+    # Set the path to the output EX4 file
+    ex4_file_path = os.path.join(output_dir, os.path.splitext(os.path.basename(mq4_file_path))[0] + ".ex4")
+    # Build the command to compile the MQ4 file to EX4
+    command = f'"{metaeditor_path}" /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
+    # Execute the command and capture the output
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output, error = process.communicate()
 
-def compile_mq4_file(mq4_file_pathh):
+    # Check if compilation succeeded
+    if os.path.isfile(ex4_file_path):
+        st.write(f"Compilation of {mq4_file_path} succeeded. Output file: {ex4_file_path}")
+        return ex4_file_path
+    else:
+        st.write(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
+        return None
+def compile_mq4_file2(mq4_file_pathh):
     mq4_file_path=os.path.join(os.path.dirname(__file__), mq4_file_pathh)
     print(mq4_file_path)
     # Get the path to the MetaEditor executable
