@@ -73,6 +73,7 @@ def compile_mq4_file2(mq4_file_pathh):
     # Execute the command and capture the output
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     output, error = process.communicate()
+    process.kill()
     
     # Check if compilation succeeded
     if os.path.isfile(ex4_file_path):
@@ -188,6 +189,9 @@ def main():
                     data=file,
                     file_name=ex4_file.name[:-4]+'_AUTO_EA'+'.ex4',
                 )
+    res = subprocess.call('ls -al', shell=True) 
+    st.write(res)
+    st.write('')
     st.write(session_state)
 # Run the app
 if __name__ == "__main__":
