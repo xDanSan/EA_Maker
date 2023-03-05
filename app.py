@@ -152,16 +152,16 @@ def main():
     if st.button("Compile the EA  - 4"):
         ex444 = compile_mq4_file(mq4file)
         
-        if ex4_file is not None:
-            st.write(f"file is downloadable at generatedfile.ex4")
+        if ex444 is not None:
             session_state['ex444'] = ex4_file
+            st.write(f"file is downloadable at generatedfile.ex4 --> return {ex444}")
         else:
             st.write(f"error getting the file ")
         
     #download_button(session_state['ex4file'],"Download the EA now")
     show_log_file()
     if 'ex444' in session_state:
-        with open(session_state['ex444'], "rb") as file:
+        with open(ex4file, "rb") as file:
             btn = st.download_button(
                     label="Download EA",
                     data=file,
