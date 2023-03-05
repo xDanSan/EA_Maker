@@ -1,6 +1,12 @@
 import streamlit as st
 import os
 import subprocess
+# files
+basefile = 'temp_ea.mq4'
+mq4file = 'generatedfile.mq4'
+ex4file = 'generatedfile.ex4'
+logfile = 'generatedfile.log'
+
 Lines = []
 # Define a function to get the session state
 def get_session_state():
@@ -13,19 +19,16 @@ def get_session_state():
 session_state = get_session_state()
 
 #helpers
-def show_log_file(filename):
-    if "filename" in session_state:
-        with open(session_state['filename'], mode="rb") as file:
+def show_log_file():
+    return 
+    if os.path.exists("generatedfile.log"):
+        with open("generatedfile.log", mode="rb") as file:
             if file == None:
                 return
-            log_contents = file.read().decode("utf-16-le")
+            log_contents = file.read().decode("utf-16")
             st.success(log_contents)
-  
-def show_log_file2():
-    # Open the log file and read its contents
-    with open('generatedfile.log', 'r') as f:
-        content = f.read().decode("utf-8", errors="replace")
-        st.write(content)
+    else:
+        st.success("No Log File Yet")
 
     # Display the log file contents using Streamlit
     #st.code(log_content)
@@ -52,10 +55,12 @@ def compile_mq4_file(mq4_file_pathh):
     
     # Check if compilation succeeded
     if os.path.isfile(ex4_file_path):
+        st.write(f"Compilation of {mq4_file_path} OK . on : {ex4_file_path}")
         return ex4_file_path
     else:
-        print(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
+        st.write(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
         return None
+
 
 def get_value_type(value_str):
     try:
@@ -115,44 +120,45 @@ def handle_files(set_file, ex4_file):
 def main():
     # Set app title
     st.title("EA and Indicator Maker")
-    st.title("File Uploader")
+    st.subheader("the set file which contains all your indicator settings")
     # Create file uploader components
     set_file = st.file_uploader("Upload .set file", type=["set"])
+    st.subheader("the Indicator file which will use its name on the code")
     ex4_file = st.file_uploader("Upload .ex4 file", type=["ex4"])
     #st.write(set_file)
     #st.write(ex4_file)
     # Handle uploaded files when button is clicked
-    if st.button("Process Files"):
+    if st.button("Process Files  - 1"):
         if set_file is not None and ex4_file is not None:
             handle_files(set_file, ex4_file)
         else:
             st.warning("Please upload both .set and .ex4 files.")
-    if st.button("Generate the Data"):
+    if st.button("Generate the Data  - 2"):
         content = session_state['scope'] + "\n\n" + session_state['funcs']
         session_state['content'] = content
         st.write(content[:300])
         st.write(f"Data is created")
-    if st.button("Generate the EA"):
+    if st.button("Generate the EA  - 3"):
         base = ''
-        with open('temp_ea.mq4','r') as f:
+        with open(basefile,'r') as f:
             base = f.read()
         base = base.replace('//[Scope]//',session_state['scope'])
         base = base.replace('//[FUNC]//',session_state['funcs'])
-        with open('generatedfile.mq4','w') as f:
+        with open(mq4file,'w') as f:
             f.write(base)
             f.close()
             st.write(f"file is created at {f.name}")
             session_state['filename'] = f.name
-    if st.button("Compile the EA"):
-        ex444 = compile_mq4_file('generatedfile.mq4')
+    if st.button("Compile the EA  - 4"):
+        ex444 = compile_mq4_file(mq4file)
         if len(ex444)>2:
-            st.write(f"file is downloadable at {ex444}")
-            session_state['ex444'] = ex444
-    else:
-        st.write(f"error getting the file ")
+            st.write(f"file is downloadable at generatedfile.ex4")
+            session_state['ex444'] = ex4_file
+        else:
+            st.write(f"error getting the file ")
         
     #download_button(session_state['ex4file'],"Download the EA now")
-    show_log_file('generatedfile.log')
+    show_log_file()
     if 'ex444' in session_state:
         with open(session_state['ex444'], "rb") as file:
             btn = st.download_button(
