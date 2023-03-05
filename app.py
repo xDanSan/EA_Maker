@@ -151,7 +151,8 @@ def main():
             session_state['filename'] = f.name
     if st.button("Compile the EA  - 4"):
         ex444 = compile_mq4_file(mq4file)
-        if len(ex444)>2:
+        
+        if ex4_file!=None and len(ex444)>2:
             st.write(f"file is downloadable at generatedfile.ex4")
             session_state['ex444'] = ex4_file
         else:
