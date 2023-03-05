@@ -2,10 +2,10 @@ import streamlit as st
 import os
 import subprocess
 # files
-basefile = '/tmp/temp_ea.mq4'
-mq4file = '/tmp/generatedfile.mq4'
+basefile = 'temp_ea.mq4'
+mq4file = 'generatedfile.mq4'
 ex4file = '/tmp/generatedfile.ex4'
-logfile = '/tmp/generatedfile.log'
+logfile = 'generatedfile.log'
 
 Lines = []
 # Define a function to get the session state
