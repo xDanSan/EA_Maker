@@ -14,9 +14,10 @@ session_state = get_session_state()
 
 #helpers
 def show_log_file(filename):
-    with open(filename, mode="rb") as file:
-        log_contents = file.read().decode("utf-16")
-        st.success(log_contents)
+    if "filename" in session_state:
+        with open(session_state['filename'], mode="rb") as file:
+            log_contents = file.read().decode("utf-16")
+            st.success(log_contents)
   
 def show_log_file2():
     # Open the log file and read its contents
@@ -111,12 +112,13 @@ def handle_files(set_file, ex4_file):
 # Define the Streamlit app
 def main():
     # Set app title
+    st.title("EA and Indicator Maker")
     st.title("File Uploader")
     # Create file uploader components
     set_file = st.file_uploader("Upload .set file", type=["set"])
     ex4_file = st.file_uploader("Upload .ex4 file", type=["ex4"])
-    st.write(set_file)
-    st.write(ex4_file)
+    #st.write(set_file)
+    #st.write(ex4_file)
     # Handle uploaded files when button is clicked
     if st.button("Process Files"):
         if set_file is not None and ex4_file is not None:
@@ -126,7 +128,7 @@ def main():
     if st.button("Generate the Data"):
         content = session_state['scope'] + "\n\n" + session_state['funcs']
         session_state['content'] = content
-        st.write(content)
+        st.write(content[:300])
         st.write(f"Data is created")
     if st.button("Generate the EA"):
         base = ''
@@ -138,10 +140,15 @@ def main():
             f.write(base)
             f.close()
             st.write(f"file is created at {f.name}")
+            session_state['filename'] = f.name
     if st.button("Compile the EA"):
         ex444 = compile_mq4_file('generatedfile.mq4')
-        st.write(f"file is downloadable at {ex444}")
-        session_state['ex444'] = ex444
+        if len(ex444)>2:
+            st.write(f"file is downloadable at {ex444}")
+            session_state['ex444'] = ex444
+    else:
+        st.write(f"error getting the file is On  {ex444}")
+        
     #download_button(session_state['ex4file'],"Download the EA now")
     show_log_file('generatedfile.log')
     if 'ex444' in session_state:
