@@ -15,8 +15,8 @@ session_state = get_session_state()
 #helpers
 def show_log_file(filename):
     if "filename" in session_state:
-        with open(session_state['filename'], mode="rb") as file:
-            log_contents = file.read().decode("utf-16")
+        with open(session_state['filename'], mode="r") as file:
+            log_contents = file.read().decode("utf-16-le")
             st.success(log_contents)
   
 def show_log_file2():
