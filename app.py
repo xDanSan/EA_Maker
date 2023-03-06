@@ -48,7 +48,7 @@ def compile_mq4_file(mq4_file_path):
     output0, error0 = process0.communicate()
 
     # Print the files in the directory before compiling the MQ4 file
-    file_list_before = os.listdir(output_dir)
+    file_list_before = os.listdir()
     st.write(f"Files in directory {output_dir} before compilation: {file_list_before}")
 
     # Execute the command and capture the output
