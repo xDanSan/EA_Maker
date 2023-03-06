@@ -60,7 +60,7 @@ def compile_mq4_file(mq4_file_path):
         return ex4_file_path
     else:
         print(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
-        for file in os.listdir(output_dir):
+        for file in os.listdir():
             print(file)
         return None
 def compile_mq4_file5(mq4_file_path):
