@@ -4,7 +4,7 @@ import subprocess
 # files
 basefile = 'temp_ea.mq4'
 mq4file = 'generatedfile.mq4'
-ex4file = '/tmp/generatedfile.ex4'
+ex4file = 'generatedfile.ex4'
 logfile = 'generatedfile.log'
 
 Lines = []
@@ -44,7 +44,9 @@ def compile_mq4_file(mq4_file_path):
     # Build the command to compile the MQ4 file to EX4
     command = f'"{metaeditor_path}" /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
     # Execute the command and capture the output
+    process0 = subprocess.Popen(f"chmod +x {metaeditor_path}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output0, error0 = process0.communicate()
     output, error = process.communicate()
 
     # Check if compilation succeeded
@@ -69,7 +71,7 @@ def compile_mq4_file2(mq4_file_pathh):
     ex4_file_path = os.path.join(output_dir, os.path.splitext(os.path.basename(mq4_file_path))[0] + ".ex4")
     print('ex4_file_path',ex4_file_path)
     # Build the command to compile the MQ4 file to EX4   /usr/bin/wine
-    command = f'/usr/bin/wine /tmp/metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
+    command = f'/usr/bin/wine metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
     #command = f'metaeditor.exe /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
     # Execute the command and capture the output
     process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
@@ -194,4 +196,5 @@ def main():
     st.write(session_state)
 # Run the app
 if __name__ == "__main__":
+    #chmod +x bin/magento
     main()
