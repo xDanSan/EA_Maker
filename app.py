@@ -53,7 +53,7 @@ if mq4_file is not None:
     compile_mq4_to_ex4(mq4_path, ex4_path)
 
     # Display a link to download the compiled EX4 file
-    ex4_file = open(f"{ex4_path}", "rb").read()
+    ex4_file = open(ex4_path, "rb").read()
     st.download_button("Download EX4 file", ex4_file, f"{mq4_file.name.replace('mq4', 'ex4')}", mime="application/octet-stream")
 def compile_mq4_file9(mq4_file_path):
     # Get the path to the MetaEditor executable
