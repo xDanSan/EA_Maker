@@ -53,6 +53,35 @@ def compile_mq4_file(mq4_file_path):
     # Check if compilation succeeded
     if os.path.isfile(ex4_file_path):
         print(f"Compilation of {mq4_file_path} succeeded. Output file: {ex4_file_path}")
+        # Print the files in the current directory
+        print(f"Files in directory {output_dir}:")
+        for file in os.listdir(output_dir):
+            print(file)
+        return ex4_file_path
+    else:
+        print(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
+        return None
+def compile_mq4_file5(mq4_file_path):
+    # Get the path to the MetaEditor executable
+    metaeditor_path = os.path.join(os.path.dirname(__file__), "metaeditor")
+    # Get the path to the MQ4 file directory
+    mq4_file_dir = os.path.dirname(mq4_file_path)
+    # Set the output directory to the MQ4 file directory
+    output_dir = mq4_file_dir
+    # Set the path to the output EX4 file
+    ex4_file_path = os.path.join(output_dir, os.path.splitext(os.path.basename(mq4_file_path))[0] + ".ex4")
+    # Build the command to compile the MQ4 file to EX4
+    command = f'"{metaeditor_path}" /compile:"{mq4_file_path}" /log /outdir:"{output_dir}"'
+    # Make the MetaEditor executable executable
+    process0 = subprocess.Popen(f"chmod +x {metaeditor_path}", stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output0, error0 = process0.communicate()
+    # Execute the command and capture the output
+    process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+    output, error = process.communicate()
+
+    # Check if compilation succeeded
+    if os.path.isfile(ex4_file_path):
+        print(f"Compilation of {mq4_file_path} succeeded. Output file: {ex4_file_path}")
         return ex4_file_path
     else:
         print(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
