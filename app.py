@@ -46,8 +46,8 @@ mq4_file = st.file_uploader("Upload an MQ4 file", type=["mq4"])
 
 if mq4_file is not None:
     # Compile the MQ4 file to an EX4 file
-    ex4_path = ""
-    mq4_path = ""#f"{ex4_path}/{mq4_file.name}"
+    ex4_path = f"{mq4_file.name}.ex4"
+    mq4_path = f"{mq4_file.name}.mq4"
     with open(mq4_path, "wb") as f:
         f.write(mq4_file.getbuffer())
     compile_mq4_to_ex4(mq4_path, ex4_path)
