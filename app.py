@@ -65,7 +65,7 @@ def compile_mq4_file(mq4_file_path):
     else:
         st.write(f"Compilation of {mq4_file_path} failed. Error message: {error.decode('utf-8')}")
         # Print the files in the directory after failing to compile the MQ4 file
-        file_list_after = os.listdir(output_dir)
+        file_list_after = os.listdir()
         st.write(f"Files in directory {output_dir} after compilation: {file_list_after}")
         return None    
 def compile_mq4_file7(mq4_file_path):
