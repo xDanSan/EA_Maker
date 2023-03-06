@@ -32,7 +32,30 @@ def show_log_file():
 
     # Display the log file contents using Streamlit
     #st.code(log_content)
-def compile_mq4_file(mq4_file_path):
+def compile_mq4_to_ex4(mq4_path, ex4_path):
+    """
+    Compiles an MQ4 file to an EX4 file.
+    """
+    command = f"wine64 /path/to/MetaEditor.exe /compile:{mq4_path} /log /outdir:{ex4_path}"
+    subprocess.run(command, shell=True)
+
+st.title("MQ4 to EX4 Compiler")
+
+# Allow the user to upload an MQ4 file
+mq4_file = st.file_uploader("Upload an MQ4 file", type=["mq4"])
+
+if mq4_file is not None:
+    # Compile the MQ4 file to an EX4 file
+    ex4_path = "/path/to/output/directory"
+    mq4_path = f"{ex4_path}/{mq4_file.name}"
+    with open(mq4_path, "wb") as f:
+        f.write(mq4_file.getbuffer())
+    compile_mq4_to_ex4(mq4_path, ex4_path)
+
+    # Display a link to download the compiled EX4 file
+    ex4_file = open(f"{ex4_path}/{mq4_file.name.replace('mq4', 'ex4')}", "rb").read()
+    st.download_button("Download EX4 file", ex4_file, f"{mq4_file.name.replace('mq4', 'ex4')}", mime="application/octet-stream")
+def compile_mq4_file9(mq4_file_path):
     # Get the path to the MetaEditor executable
     metaeditor_path = os.path.join(os.path.dirname(__file__), "metaeditor")
     # Get the path to the MQ4 file directory
