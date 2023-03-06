@@ -36,7 +36,7 @@ def compile_mq4_to_ex4(mq4_path, ex4_path):
     """
     Compiles an MQ4 file to an EX4 file.
     """
-    command = f"wine64 /path/to/MetaEditor.exe /compile:{mq4_path} /log /outdir:{ex4_path}"
+    command = f"wine64 MetaEditor.exe /compile:{mq4_path} /log /outdir:{ex4_path}"
     subprocess.run(command, shell=True)
 
 st.title("MQ4 to EX4 Compiler")
@@ -46,8 +46,8 @@ mq4_file = st.file_uploader("Upload an MQ4 file", type=["mq4"])
 
 if mq4_file is not None:
     # Compile the MQ4 file to an EX4 file
-    ex4_path = "/path/to/output/directory"
-    mq4_path = f"{ex4_path}/{mq4_file.name}"
+    ex4_path = ""
+    mq4_path = ""#f"{ex4_path}/{mq4_file.name}"
     with open(mq4_path, "wb") as f:
         f.write(mq4_file.getbuffer())
     compile_mq4_to_ex4(mq4_path, ex4_path)
